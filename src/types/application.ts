@@ -51,4 +51,22 @@ export type ApplicationGitStatus = {
   behind: number;
   has_local_changes: boolean;
   is_up_to_date: boolean;
+  can_publish?: boolean;
 };
+
+export type ApplicationGitStatusPayload = {
+  branch: string;
+  local_commit: string | null;
+  remote_commit: string | null;
+  ahead: number;
+  behind: number;
+  has_changes?: boolean;
+  has_local_changes?: boolean;
+  is_latest?: boolean;
+  is_up_to_date?: boolean;
+  can_publish?: boolean;
+};
+
+export type ApplicationGitStatusResponse =
+  | ApplicationGitStatusPayload
+  | { git: ApplicationGitStatusPayload };

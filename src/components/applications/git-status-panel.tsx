@@ -49,6 +49,7 @@ export function GitStatusPanel({ application }: GitStatusPanelProps) {
   }
 
   const canPublish =
+    data?.can_publish ??
     Boolean(data && (data.ahead > 0 || data.has_local_changes));
   const syncLabel = data
     ? data.behind > 0 && data.ahead > 0
