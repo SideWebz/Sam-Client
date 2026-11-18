@@ -46,7 +46,6 @@ export function useApplicationGitStatus(applicationId: number) {
       } satisfies ApplicationGitStatus;
     },
     enabled: Boolean(applicationId),
-    refetchInterval: 30000,
   });
 }
 
