@@ -28,6 +28,11 @@ export function useApplicationAction() {
     onSuccess: (_, variables) => {
       toast.success(`${variables.action} uitgevoerd`);
       queryClient.invalidateQueries({ queryKey: ["applications"] });
+      if (variables.action === "deploy") {
+        queryClient.invalidateQueries({
+          queryKey: ["application-git-status", variables.id],
+        });
+      }
     },
 
     onError: (_, variables) => {

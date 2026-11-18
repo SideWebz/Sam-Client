@@ -41,3 +41,14 @@ export type ApplicationLogsResponse = {
   application_id: number;
   logs: string;
 };
+
+export type ApplicationGitStatus = {
+  application_id: number;
+  branch: string;
+  local_commit: string | null;
+  remote_commit: string | null;
+  ahead: number;
+  behind: number;
+  has_local_changes: boolean;
+  is_up_to_date: boolean;
+};

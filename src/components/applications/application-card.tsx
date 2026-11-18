@@ -18,6 +18,7 @@ import { LiveStatusPanel } from "@/components/applications/live-status-panel";
 import { ActionButton } from "@/components/sam/action-button";
 import { useApplicationAction } from "@/hooks/use-application-actions";
 import { LogsDialog } from "@/components/applications/logs-dialog";
+import { GitStatusPanel } from "@/components/applications/git-status-panel";
 
 type ApplicationCardProps = {
   application: Application;
@@ -65,6 +66,7 @@ export function ApplicationCard({ application }: ApplicationCardProps) {
           </div>
 
           <LiveStatusPanel application={application} />
+          <GitStatusPanel application={application} />
 
           <div className="mt-5 grid grid-cols-2 gap-2">
             <ActionButton
