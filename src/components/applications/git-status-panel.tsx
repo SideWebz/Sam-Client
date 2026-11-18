@@ -48,8 +48,29 @@ export function GitStatusPanel({ application }: GitStatusPanelProps) {
     );
   }
 
-  const hasUnpublishedChanges =
+  const canPublish =
     Boolean(data && (data.ahead > 0 || data.has_local_changes));
+  const syncLabel = data
+    ? data.behind > 0 && data.ahead > 0
+      ? "Uit elkaar gelopen"
+      : data.behind > 0
+        ? `${data.behind} ${data.behind === 1 ? "commit" : "commits"} achter`
+        : data.ahead > 0
+          ? `${data.ahead} ${data.ahead === 1 ? "commit" : "commits"} vooruit`
+          : data.has_local_changes
+            ? "Lokale wijzigingen"
+            : data.is_up_to_date
+              ? "Bijgewerkt"
+              : "Status onbekend"
+    : null;
+  const syncLabelClass =
+    data && data.behind > 0
+      ? "bg-amber-500/15 text-amber-300"
+      : data && (data.ahead > 0 || data.has_local_changes)
+        ? "bg-blue-500/15 text-blue-300"
+        : data?.is_up_to_date
+          ? "bg-emerald-500/15 text-emerald-300"
+          : "bg-white/10 text-slate-300";
 
   return (
     <>
@@ -87,19 +108,9 @@ export function GitStatusPanel({ application }: GitStatusPanelProps) {
                 Branch: <span className="text-slate-200">{data.branch}</span>
               </span>
               <span
-                className={`rounded-full px-2 py-1 text-xs font-medium ${
-                  data.behind > 0
-                    ? "bg-amber-500/15 text-amber-300"
-                    : data.is_up_to_date
-                      ? "bg-emerald-500/15 text-emerald-300"
-                      : "bg-blue-500/15 text-blue-300"
-                }`}
+                className={`rounded-full px-2 py-1 text-xs font-medium ${syncLabelClass}`}
               >
-                {data.behind > 0
-                  ? `${data.behind} achter`
-                  : data.is_up_to_date
-                    ? "Bij"
-                    : "Niet bijgewerkt"}
+                {syncLabel}
               </span>
             </div>
 
@@ -132,18 +143,22 @@ export function GitStatusPanel({ application }: GitStatusPanelProps) {
               </p>
             )}
 
-            {hasUnpublishedChanges && (
-              <ActionButton
-                variant="success"
-                className="mt-3 w-full"
-                onClick={() => setPublishOpen(true)}
-              >
-                <ArrowUpFromLine className="size-4" />
-                Commit &amp; push
-              </ActionButton>
-            )}
           </>
         )}
+
+        <ActionButton
+          variant="success"
+          className="mt-3 w-full"
+          disabled={!canPublish || publishMutation.isPending}
+          onClick={() => setPublishOpen(true)}
+        >
+          <ArrowUpFromLine className="size-4" />
+          {canPublish
+            ? "Commit & push"
+            : data
+              ? "Geen wijzigingen om te pushen"
+              : "Git-status nodig voor commit & push"}
+        </ActionButton>
       </section>
 
       <Dialog
