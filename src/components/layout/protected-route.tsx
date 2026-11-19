@@ -29,8 +29,8 @@ export function ProtectedRoute({ children }: ProtectedRouteProps) {
 
   if (isCheckingAuth) {
     return (
-      <main className="flex min-h-screen items-center justify-center bg-[#070a12] text-white">
-        <p className="text-sm text-slate-400">Dashboard laden...</p>
+      <main className="flex min-h-dvh items-center justify-center bg-background">
+        <p className="text-sm text-muted-foreground">Dashboard laden...</p>
       </main>
     );
   }

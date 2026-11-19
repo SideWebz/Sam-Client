@@ -7,15 +7,15 @@ export function StatusDot({ status }: StatusDotProps) {
 
   return (
     <div
-      className={`flex items-center gap-2 rounded-full border px-3 py-1 text-xs font-medium ${
+      className={`inline-flex shrink-0 items-center gap-2 rounded-full border px-2.5 py-1 text-xs font-medium ${
         isRunning
-          ? "border-emerald-400/20 bg-emerald-400/10 text-emerald-300"
-          : "border-red-400/20 bg-red-400/10 text-red-300"
+          ? "border-emerald-200 bg-emerald-50 text-emerald-700"
+          : "border-border bg-muted text-muted-foreground"
       }`}
     >
       <span
-        className={`size-2 rounded-full ${
-          isRunning ? "bg-emerald-400" : "bg-red-400"
+        className={`size-1.5 rounded-full ${
+          isRunning ? "bg-emerald-500" : "bg-neutral-400"
         }`}
       />
       <span className="capitalize">{status ?? "unknown"}</span>

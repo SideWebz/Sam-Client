@@ -6,70 +6,75 @@ import { Plus } from "lucide-react";
 import { useApplications } from "@/hooks/use-applications";
 import { ProtectedRoute } from "@/components/layout/protected-route";
 import { AppShell } from "@/components/layout/app-shell";
+import { PageHeader } from "@/components/layout/page-header";
 import { ApplicationCard } from "@/components/applications/application-card";
-import { ActionButton } from "@/components/sam/action-button";
+import { actionButtonClass } from "@/components/sam/action-button";
 
 export default function DashboardPage() {
   const { data: applications, isLoading, isError } = useApplications();
 
+  const total = applications?.length ?? 0;
+  const running =
+    applications?.filter((application) => application.status === "running")
+      .length ?? 0;
+
   return (
     <ProtectedRoute>
       <AppShell>
-        <div className="flex flex-col gap-6">
-          <div className="flex flex-col justify-between gap-4 md:flex-row md:items-center">
-            <div>
-              <p className="text-sm uppercase tracking-[0.3em] text-blue-300">
-                Applications
-              </p>
-
-              <h1 className="mt-2 text-3xl font-bold text-white">
-                Dashboard
-              </h1>
-
-              <p className="mt-2 text-slate-400">
-                Beheer je apps, deployments, status en logs.
-              </p>
-            </div>
-
-            <Link href="/applications/create">
-              <ActionButton>
+        <div className="flex flex-col gap-8">
+          <PageHeader
+            eyebrow="Applications"
+            title="Dashboard"
+            description="Beheer je apps, deployments, status en logs."
+            actions={
+              <Link
+                href="/applications/create"
+                className={actionButtonClass("primary", "w-full sm:w-auto")}
+              >
                 <Plus className="size-4" />
                 New application
-              </ActionButton>
-            </Link>
-          </div>
+              </Link>
+            }
+          />
+
+          {applications && applications.length > 0 && (
+            <dl className="grid grid-cols-3 divide-x rounded-xl border bg-card">
+              <Stat label="Totaal" value={total} />
+              <Stat label="Running" value={running} />
+              <Stat label="Stopped" value={total - running} />
+            </dl>
+          )}
 
           {isLoading && (
-            <div className="rounded-2xl border border-white/10 bg-white/[0.04] p-6 text-slate-400">
+            <div className="rounded-xl border bg-card p-6 text-sm text-muted-foreground">
               Applicaties laden...
             </div>
           )}
 
           {isError && (
-            <div className="rounded-2xl border border-red-500/20 bg-red-500/10 p-6 text-red-200">
+            <div className="rounded-xl border border-red-200 bg-red-50 p-6 text-sm text-red-700">
               Kon applicaties niet ophalen. Check of je Laravel API draait.
             </div>
           )}
 
           {!isLoading && applications?.length === 0 && (
-            <div className="rounded-2xl border border-white/10 bg-white/[0.04] p-8 text-center">
-              <h2 className="text-xl font-bold text-white">
-                Nog geen applicaties
-              </h2>
+            <div className="rounded-xl border border-dashed bg-card p-10 text-center">
+              <h2 className="text-lg font-semibold">Nog geen applicaties</h2>
 
-              <p className="mt-2 text-slate-400">
+              <p className="mt-1.5 text-sm text-muted-foreground">
                 Maak je eerste application aan om te starten.
               </p>
 
-              <Link href="/applications/create">
-                <ActionButton className="mt-6">
-                  Create application
-                </ActionButton>
+              <Link
+                href="/applications/create"
+                className={actionButtonClass("primary", "mt-6")}
+              >
+                Create application
               </Link>
             </div>
           )}
 
-          <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-3">
+          <div className="grid gap-4 md:grid-cols-2 2xl:grid-cols-3">
             {applications?.map((application) => (
               <ApplicationCard
                 key={application.id}
@@ -80,5 +85,16 @@ export default function DashboardPage() {
         </div>
       </AppShell>
     </ProtectedRoute>
+  );
+}
+
+function Stat({ label, value }: { label: string; value: number }) {
+  return (
+    <div className="px-4 py-4 sm:px-6">
+      <dt className="text-xs font-medium text-muted-foreground">{label}</dt>
+      <dd className="mt-1 text-2xl font-semibold tabular-nums tracking-tight">
+        {value}
+      </dd>
+    </div>
   );
 }

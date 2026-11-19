@@ -47,13 +47,13 @@ export default function EditApplicationPage({ params }: Props) {
     <ProtectedRoute>
       <AppShell>
         {isLoading && (
-          <div className="rounded-2xl border border-white/10 bg-white/[0.04] p-6 text-slate-400">
+          <div className="rounded-xl border bg-card p-6 text-sm text-muted-foreground">
             Application laden...
           </div>
         )}
 
         {isError && (
-          <div className="rounded-2xl border border-red-500/20 bg-red-500/10 p-6 text-red-200">
+          <div className="rounded-xl border border-red-200 bg-red-50 p-6 text-sm text-red-700">
             Kon application niet ophalen.
           </div>
         )}
@@ -79,11 +79,11 @@ export default function EditApplicationPage({ params }: Props) {
               onSubmit={handleSubmit}
             />
 
-            <div className="mx-auto mt-6 max-w-3xl rounded-2xl border border-red-500/20 bg-red-500/10 p-5">
+            <div className="mx-auto mt-6 max-w-3xl rounded-xl border border-red-200 bg-card p-5">
               <div className="flex flex-col justify-between gap-4 md:flex-row md:items-center">
                 <div>
-                  <h2 className="font-bold text-white">Danger zone</h2>
-                  <p className="mt-1 text-sm text-red-100/70">
+                  <h2 className="font-semibold text-red-700">Danger zone</h2>
+                  <p className="mt-1 text-sm text-muted-foreground">
                     Verwijder deze application, PM2 process, logs en projectmap.
                   </p>
                 </div>

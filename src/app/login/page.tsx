@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useMutation } from "@tanstack/react-query";
+import { Server } from "lucide-react";
 import { toast } from "sonner";
 import { api } from "@/lib/api";
 import type { LoginResponse } from "@/types/auth";
@@ -50,46 +51,58 @@ export default function LoginPage() {
   }
 
   return (
-    <main className="flex min-h-screen items-center justify-center bg-[#070a12] p-6 text-white">
-      <div className="w-full max-w-md rounded-2xl border border-white/10 bg-white/[0.04] p-8 shadow-2xl">
-        <p className="text-sm uppercase tracking-[0.3em] text-blue-300">
-          SAM Client
-        </p>
-
-        <h1 className="mt-3 text-3xl font-bold">Login</h1>
-
-        <p className="mt-2 text-sm text-slate-400">
-          Log in om je server applicaties te beheren.
-        </p>
-
-        <form onSubmit={handleSubmit} className="mt-8 space-y-5">
-          <div className="space-y-2">
-            <Label>Username</Label>
-            <Input
-              value={username}
-              onChange={(event) => setUsername(event.target.value)}
-              className="border-white/10 bg-white/5 text-white"
-            />
+    <main className="flex min-h-dvh items-center justify-center bg-background px-4 py-10">
+      <div className="w-full max-w-sm">
+        <div className="mb-8 flex items-center gap-3">
+          <div className="flex size-10 items-center justify-center rounded-lg bg-primary text-primary-foreground">
+            <Server className="size-5" />
           </div>
-
-          <div className="space-y-2">
-            <Label>Password</Label>
-            <Input
-              type="password"
-              value={password}
-              onChange={(event) => setPassword(event.target.value)}
-              className="border-white/10 bg-white/5 text-white"
-            />
+          <div className="leading-tight">
+            <p className="text-sm font-semibold">SAM Client</p>
+            <p className="text-xs text-muted-foreground">Application Manager</p>
           </div>
+        </div>
 
-          <Button
-            type="submit"
-            disabled={loginMutation.isPending}
-            className="w-full"
-          >
-            {loginMutation.isPending ? "Inloggen..." : "Login"}
-          </Button>
-        </form>
+        <div className="rounded-xl border bg-card p-6 sm:p-8">
+          <h1 className="text-2xl font-semibold tracking-tight">Login</h1>
+
+          <p className="mt-1.5 text-sm text-muted-foreground">
+            Log in om je server applicaties te beheren.
+          </p>
+
+          <form onSubmit={handleSubmit} className="mt-8 space-y-5">
+            <div className="space-y-2">
+              <Label htmlFor="username">Username</Label>
+              <Input
+                id="username"
+                autoComplete="username"
+                autoCapitalize="none"
+                value={username}
+                onChange={(event) => setUsername(event.target.value)}
+              />
+            </div>
+
+            <div className="space-y-2">
+              <Label htmlFor="password">Password</Label>
+              <Input
+                id="password"
+                type="password"
+                autoComplete="current-password"
+                value={password}
+                onChange={(event) => setPassword(event.target.value)}
+              />
+            </div>
+
+            <Button
+              type="submit"
+              size="lg"
+              disabled={loginMutation.isPending}
+              className="w-full"
+            >
+              {loginMutation.isPending ? "Inloggen..." : "Login"}
+            </Button>
+          </form>
+        </div>
       </div>
     </main>
   );

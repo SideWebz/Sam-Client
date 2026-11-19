@@ -66,24 +66,24 @@ export function GitStatusPanel({ application }: GitStatusPanelProps) {
     : null;
   const syncLabelClass =
     data && data.behind > 0
-      ? "bg-amber-500/15 text-amber-300"
+      ? "bg-amber-50 text-amber-800"
       : data && (data.ahead > 0 || data.has_local_changes)
-        ? "bg-blue-500/15 text-blue-300"
+        ? "bg-neutral-900 text-neutral-50"
         : data?.is_up_to_date
-          ? "bg-emerald-500/15 text-emerald-300"
-          : "bg-white/10 text-slate-300";
+          ? "bg-emerald-50 text-emerald-700"
+          : "bg-muted text-muted-foreground";
 
   return (
     <>
-      <section className="mt-4 rounded-xl border border-white/10 bg-white/[0.03] p-4 text-sm">
+      <section className="mt-3 rounded-lg border bg-card p-4 text-sm">
         <div className="flex items-center justify-between gap-3">
-          <div className="flex items-center gap-2 font-medium text-slate-200">
-            <GitBranch className="size-4 text-blue-300" />
+          <div className="flex items-center gap-2 font-medium">
+            <GitBranch className="size-4 text-muted-foreground" />
             Git
           </div>
           <ActionButton
             variant="ghost"
-            className="h-8 px-2"
+            className="h-9 px-2.5 sm:h-8 sm:px-2"
             aria-label={`Git-status vernieuwen voor ${application.name}`}
             loading={isFetching}
             onClick={() => refetch()}
@@ -93,11 +93,11 @@ export function GitStatusPanel({ application }: GitStatusPanelProps) {
         </div>
 
         {isLoading && (
-          <p className="mt-3 text-slate-400">Git-status laden...</p>
+          <p className="mt-3 text-muted-foreground">Git-status laden...</p>
         )}
 
         {isError && (
-          <p className="mt-3 text-red-200">
+          <p className="mt-3 text-red-700">
             Git-status niet beschikbaar. Probeer opnieuw te laden.
           </p>
         )}
@@ -105,8 +105,8 @@ export function GitStatusPanel({ application }: GitStatusPanelProps) {
         {data && (
           <>
             <div className="mt-3 flex flex-wrap items-center justify-between gap-2">
-              <span className="min-w-0 truncate text-slate-400">
-                Branch: <span className="text-slate-200">{data.branch}</span>
+              <span className="min-w-0 truncate text-muted-foreground">
+                Branch: <span className="text-foreground">{data.branch}</span>
               </span>
               <span
                 className={`rounded-full px-2 py-1 text-xs font-medium ${syncLabelClass}`}
@@ -115,16 +115,16 @@ export function GitStatusPanel({ application }: GitStatusPanelProps) {
               </span>
             </div>
 
-            <div className="mt-3 grid grid-cols-2 gap-2 text-xs text-slate-400">
+            <div className="mt-3 grid grid-cols-2 gap-2 text-xs text-muted-foreground">
               <span className="truncate">
                 Lokaal:{" "}
-                <span className="font-mono text-slate-200">
+                <span className="font-mono text-foreground">
                   {shortHash(data.local_commit)}
                 </span>
               </span>
               <span className="truncate">
                 Upstream:{" "}
-                <span className="font-mono text-slate-200">
+                <span className="font-mono text-foreground">
                   {shortHash(data.remote_commit)}
                 </span>
               </span>
@@ -139,7 +139,7 @@ export function GitStatusPanel({ application }: GitStatusPanelProps) {
             </div>
 
             {data.has_local_changes && (
-              <p className="mt-2 text-xs text-amber-300">
+              <p className="mt-2 text-xs text-amber-700">
                 Er zijn lokale wijzigingen.
               </p>
             )}
@@ -148,7 +148,7 @@ export function GitStatusPanel({ application }: GitStatusPanelProps) {
         )}
 
         <ActionButton
-          variant="success"
+          variant={canPublish ? "primary" : "ghost"}
           className="mt-3 w-full"
           disabled={!canPublish || publishMutation.isPending}
           onClick={() => setPublishOpen(true)}
@@ -168,10 +168,10 @@ export function GitStatusPanel({ application }: GitStatusPanelProps) {
           if (!publishMutation.isPending) setPublishOpen(open);
         }}
       >
-        <DialogContent className="border-white/10 bg-[#0d111b] text-white">
+        <DialogContent>
           <DialogHeader>
             <DialogTitle>Commit &amp; push — {application.name}</DialogTitle>
-            <p className="text-sm text-slate-400">
+            <p className="text-sm text-muted-foreground">
               Niet-genegeerde wijzigingen worden gecommit en de branch wordt
               gepusht. Laat leeg om de standaard committekst te gebruiken.
             </p>
@@ -185,7 +185,7 @@ export function GitStatusPanel({ application }: GitStatusPanelProps) {
             disabled={publishMutation.isPending}
           />
 
-          <div className="flex justify-end gap-2">
+          <div className="flex flex-col-reverse gap-2 sm:flex-row sm:justify-end">
             <ActionButton
               variant="ghost"
               onClick={() => setPublishOpen(false)}
@@ -194,7 +194,7 @@ export function GitStatusPanel({ application }: GitStatusPanelProps) {
               Annuleren
             </ActionButton>
             <ActionButton
-              variant="success"
+              variant="primary"
               loading={publishMutation.isPending}
               onClick={publishChanges}
             >

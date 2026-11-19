@@ -3,6 +3,7 @@
 import { CheckCircle2, XCircle, RefreshCcw, Terminal } from "lucide-react";
 
 import { AppShell } from "@/components/layout/app-shell";
+import { PageHeader } from "@/components/layout/page-header";
 import { ProtectedRoute } from "@/components/layout/protected-route";
 import { ActionButton } from "@/components/sam/action-button";
 import { useSystem } from "@/hooks/use-system";
@@ -13,92 +14,71 @@ export default function SystemPage() {
   return (
     <ProtectedRoute>
       <AppShell>
-        <div className="flex flex-col gap-6">
-          <div className="flex flex-col justify-between gap-4 md:flex-row md:items-center">
-            <div>
-              <p className="text-sm uppercase tracking-[0.3em] text-blue-300">
-                System
-              </p>
-
-              <h1 className="mt-2 text-3xl font-bold text-white">
-                System check
-              </h1>
-
-              <p className="mt-2 text-slate-400">
-                Controleer of alle vereiste server tools beschikbaar zijn.
-              </p>
-            </div>
-
-            <ActionButton
-              variant="ghost"
-              loading={isFetching}
-              onClick={() => refetch()}
-            >
-              <RefreshCcw className="size-4" />
-              Refresh
-            </ActionButton>
-          </div>
+        <div className="flex flex-col gap-8">
+          <PageHeader
+            eyebrow="System"
+            title="System check"
+            description="Controleer of alle vereiste server tools beschikbaar zijn."
+            actions={
+              <ActionButton
+                variant="ghost"
+                loading={isFetching}
+                onClick={() => refetch()}
+                className="w-full sm:w-auto"
+              >
+                <RefreshCcw className="size-4" />
+                Refresh
+              </ActionButton>
+            }
+          />
 
           {isLoading && (
-            <div className="rounded-2xl border border-white/10 bg-white/[0.04] p-6 text-slate-400">
+            <div className="rounded-xl border bg-card p-6 text-sm text-muted-foreground">
               System check laden...
             </div>
           )}
 
           {isError && (
-            <div className="rounded-2xl border border-red-500/20 bg-red-500/10 p-6 text-red-200">
+            <div className="rounded-xl border border-red-200 bg-red-50 p-6 text-sm text-red-700">
               Kon system check niet ophalen. Check of je Laravel API draait.
             </div>
           )}
 
           {system && (
-            <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-3">
+            <div className="grid gap-4 md:grid-cols-2 2xl:grid-cols-3">
               {Object.entries(system).map(([name, item]) => (
-                <div
-                  key={name}
-                  className="overflow-hidden rounded-2xl border border-white/10 bg-[#0d111b] shadow-2xl shadow-black/30"
-                >
-                  <div
-                    className={`h-1 ${
-                      item.installed
-                        ? "bg-gradient-to-r from-emerald-500 to-cyan-400"
-                        : "bg-gradient-to-r from-red-500 to-orange-400"
-                    }`}
-                  />
-
-                  <div className="p-5">
-                    <div className="flex items-start justify-between gap-4">
-                      <div className="flex items-center gap-3">
-                        <div className="flex size-11 items-center justify-center rounded-xl bg-white/5 text-slate-300">
-                          <Terminal className="size-5" />
-                        </div>
-
-                        <div>
-                          <h2 className="text-xl font-bold capitalize text-white">
-                            {name}
-                          </h2>
-                          <p className="mt-1 text-sm text-slate-400">
-                            {item.message}
-                          </p>
-                        </div>
+                <div key={name} className="rounded-xl border bg-card p-5">
+                  <div className="flex items-start justify-between gap-4">
+                    <div className="flex min-w-0 items-center gap-3">
+                      <div className="flex size-10 shrink-0 items-center justify-center rounded-lg bg-muted text-muted-foreground">
+                        <Terminal className="size-[18px]" />
                       </div>
 
-                      {item.installed ? (
-                        <CheckCircle2 className="size-6 text-emerald-400" />
-                      ) : (
-                        <XCircle className="size-6 text-red-400" />
-                      )}
+                      <div className="min-w-0">
+                        <h2 className="truncate font-semibold capitalize">
+                          {name}
+                        </h2>
+                        <p className="mt-0.5 text-sm text-muted-foreground">
+                          {item.message}
+                        </p>
+                      </div>
                     </div>
 
-                    <div className="mt-5 rounded-xl border border-white/10 bg-black/30 p-4">
-                      <p className="text-xs uppercase tracking-[0.2em] text-slate-500">
-                        Path
-                      </p>
+                    {item.installed ? (
+                      <CheckCircle2 className="size-5 shrink-0 text-emerald-600" />
+                    ) : (
+                      <XCircle className="size-5 shrink-0 text-red-600" />
+                    )}
+                  </div>
 
-                      <p className="mt-2 break-all font-mono text-sm text-slate-300">
-                        {item.path || "Niet gevonden"}
-                      </p>
-                    </div>
+                  <div className="mt-4 rounded-lg bg-muted px-3.5 py-3">
+                    <p className="text-[11px] font-medium uppercase tracking-wider text-muted-foreground">
+                      Path
+                    </p>
+
+                    <p className="mt-1 break-all font-mono text-xs text-foreground">
+                      {item.path || "Niet gevonden"}
+                    </p>
                   </div>
                 </div>
               ))}

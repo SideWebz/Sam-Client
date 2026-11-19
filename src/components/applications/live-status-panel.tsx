@@ -15,7 +15,7 @@ export function LiveStatusPanel({ application }: LiveStatusPanelProps) {
 
   if (isLoading) {
     return (
-      <div className="mt-5 rounded-xl border border-white/10 bg-white/[0.03] p-4 text-sm text-slate-400">
+      <div className="mt-5 rounded-lg bg-muted px-4 py-3 text-sm text-muted-foreground">
         Status laden...
       </div>
     );
@@ -23,14 +23,14 @@ export function LiveStatusPanel({ application }: LiveStatusPanelProps) {
 
   if (isError || !status) {
     return (
-      <div className="mt-5 rounded-xl border border-red-500/20 bg-red-500/10 p-4 text-sm text-red-200">
+      <div className="mt-5 rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
         Status niet beschikbaar.
       </div>
     );
   }
 
   return (
-    <div className="mt-5 space-y-3 rounded-xl border border-white/10 bg-white/[0.03] p-4 text-sm">
+    <div className="mt-5 space-y-3 rounded-lg bg-muted px-4 py-3.5 text-sm">
       <StatusRow
         icon={<Server className="size-4" />}
         label="PM2"
@@ -61,7 +61,7 @@ function StatusRow({
 }) {
   return (
     <div className="flex items-center justify-between gap-4">
-      <div className="flex items-center gap-2 text-slate-500">
+      <div className="flex items-center gap-2 text-muted-foreground">
         {icon}
         <span>{label}</span>
       </div>
@@ -69,11 +69,11 @@ function StatusRow({
       <div className="flex min-w-0 items-center gap-2 text-right">
         <span
           className={`size-2 rounded-full ${
-            active ? "bg-emerald-400" : "bg-red-400"
+            active ? "bg-emerald-500" : "bg-red-500"
           }`}
         />
 
-        <span className="truncate font-medium text-slate-200">{value}</span>
+        <span className="truncate font-medium">{value}</span>
       </div>
     </div>
   );

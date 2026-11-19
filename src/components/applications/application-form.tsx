@@ -62,33 +62,36 @@ export function ApplicationForm({
 
   return (
     <div className="mx-auto max-w-3xl">
-      <div className="mb-6">
-        <Link href="/dashboard">
-          <ActionButton variant="ghost">
-            <ArrowLeft className="size-4" />
-            Terug naar dashboard
-          </ActionButton>
+      <div className="mb-5">
+        <Link
+          href="/dashboard"
+          className="inline-flex h-10 items-center gap-2 text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
+        >
+          <ArrowLeft className="size-4" />
+          Terug naar dashboard
         </Link>
       </div>
 
-      <div className="overflow-hidden rounded-2xl border border-white/10 bg-[#0d111b] shadow-2xl shadow-black/30">
-        <div className="h-1 bg-gradient-to-r from-blue-500 via-cyan-400 to-emerald-400" />
-
-        <div className="border-b border-white/10 p-6">
-          <p className="text-sm uppercase tracking-[0.3em] text-blue-300">
+      <div className="overflow-hidden rounded-xl border bg-card">
+        <div className="border-b p-5 sm:p-6">
+          <p className="text-xs font-medium uppercase tracking-wider text-muted-foreground">
             Application
           </p>
-          <h1 className="mt-2 text-3xl font-bold text-white">{title}</h1>
-          <p className="mt-2 text-slate-400">{description}</p>
+          <h1 className="mt-1 break-words text-2xl font-semibold tracking-tight">
+            {title}
+          </h1>
+          <p className="mt-1.5 text-sm text-muted-foreground">{description}</p>
         </div>
 
-        <form onSubmit={handleSubmit(onSubmit)} className="space-y-6 p-6">
+        <form
+          onSubmit={handleSubmit(onSubmit)}
+          className="space-y-5 p-5 sm:space-y-6 sm:p-6"
+        >
           <Field error={errors.name?.message}>
             <Label>Application name</Label>
             <Input
               {...register("name")}
               placeholder="Test App"
-              className="border-white/10 bg-white/5 text-white"
             />
           </Field>
 
@@ -97,17 +100,15 @@ export function ApplicationForm({
             <Input
               {...register("repo_url")}
               placeholder="https://github.com/SideWebz/DeZeeHut.git"
-              className="border-white/10 bg-white/5 text-white"
             />
           </Field>
 
-          <div className="grid gap-6 md:grid-cols-2">
+          <div className="grid gap-5 sm:gap-6 md:grid-cols-2">
             <Field error={errors.domain?.message}>
               <Label>Domain</Label>
               <Input
                 {...register("domain")}
                 placeholder="test.local"
-                className="border-white/10 bg-white/5 text-white"
               />
             </Field>
 
@@ -116,17 +117,15 @@ export function ApplicationForm({
               <Input
                 type="number"
                 {...register("port", { valueAsNumber: true })}
-                className="border-white/10 bg-white/5 text-white"
               />
             </Field>
           </div>
 
-          <div className="grid gap-6 md:grid-cols-3">
+          <div className="grid gap-5 sm:gap-6 md:grid-cols-3">
             <Field error={errors.install_command?.message}>
               <Label>Install command</Label>
               <Input
                 {...register("install_command")}
-                className="border-white/10 bg-white/5 text-white"
               />
             </Field>
 
@@ -134,7 +133,6 @@ export function ApplicationForm({
               <Label>Build command</Label>
               <Input
                 {...register("build_command")}
-                className="border-white/10 bg-white/5 text-white"
               />
             </Field>
 
@@ -142,7 +140,6 @@ export function ApplicationForm({
               <Label>Start command</Label>
               <Input
                 {...register("start_command")}
-                className="border-white/10 bg-white/5 text-white"
               />
             </Field>
           </div>
@@ -153,12 +150,16 @@ export function ApplicationForm({
               {...register("env_content")}
               rows={8}
               placeholder="PORT=3000"
-              className="border-white/10 bg-black/40 font-mono text-sm text-green-400"
+              className="bg-muted font-mono text-sm"
             />
           </Field>
 
-          <div className="flex justify-end border-t border-white/10 pt-6">
-            <ActionButton type="submit" loading={loading}>
+          <div className="flex border-t pt-5 sm:justify-end sm:pt-6">
+            <ActionButton
+              type="submit"
+              loading={loading}
+              className="w-full sm:w-auto"
+            >
               <Save className="size-4" />
               {submitLabel}
             </ActionButton>
@@ -179,7 +180,7 @@ function Field({
   return (
     <div className="space-y-2">
       {children}
-      {error && <p className="text-sm text-red-300">{error}</p>}
+      {error && <p className="text-sm text-red-600">{error}</p>}
     </div>
   );
 }

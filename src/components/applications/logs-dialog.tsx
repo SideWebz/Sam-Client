@@ -44,17 +44,17 @@ export function LogsDialog({
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="!max-w-[1100px] overflow-hidden border border-white/10 bg-[#0d111b] p-0 pr-10 text-white">
-        <DialogHeader className="border-b border-white/10 px-6 py-5">
-          <div className="flex flex-col gap-4 pr-8 md:flex-row md:items-center md:justify-between">
+      <DialogContent className="gap-0 overflow-hidden p-0 sm:max-w-4xl">
+        <DialogHeader className="border-b px-5 py-4 sm:px-6 sm:py-5">
+          <div className="flex flex-col gap-4 pr-10 md:flex-row md:items-center md:justify-between">
             <div className="flex items-center gap-3">
-              <div className="flex size-10 items-center justify-center rounded-xl bg-blue-500/15 text-blue-300">
+              <div className="flex size-10 shrink-0 items-center justify-center rounded-lg bg-muted text-muted-foreground">
                 <ScrollText className="size-5" />
               </div>
 
               <div>
                 <DialogTitle>Logs — {application.name}</DialogTitle>
-                <p className="mt-1 text-sm text-slate-400">
+                <p className="mt-1 text-sm text-muted-foreground">
                   Laatste 200 regels
                 </p>
               </div>
@@ -78,21 +78,21 @@ export function LogsDialog({
           </div>
         </DialogHeader>
 
-        <div className="p-5 pr-0">
+        <div className="p-4 sm:p-5">
           {isLoading && (
-            <div className="rounded-xl border border-white/10 bg-black/40 p-6 text-sm text-slate-400">
+            <div className="rounded-lg bg-muted p-6 text-sm text-muted-foreground">
               Logs laden...
             </div>
           )}
 
           {isError && (
-            <div className="rounded-xl border border-red-500/20 bg-red-500/10 p-6 text-sm text-red-200">
+            <div className="rounded-lg border border-red-200 bg-red-50 p-6 text-sm text-red-700">
               Kon logs niet ophalen.
             </div>
           )}
 
           {!isLoading && !isError && (
-            <pre className="max-h-[65vh] overflow-auto rounded-xl border border-white/10 bg-black p-5 font-mono text-xs leading-6 text-green-400">
+            <pre className="max-h-[60dvh] overflow-auto rounded-lg bg-neutral-950 p-4 font-mono text-xs leading-6 text-neutral-200 sm:p-5">
               {data?.logs || "Geen logs gevonden."}
             </pre>
           )}

@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { QueryProvider } from "@/providers/query-provider";
 import { Toaster } from "@/components/ui/sonner";
 import "./globals.css";
@@ -6,6 +6,12 @@ import "./globals.css";
 export const metadata: Metadata = {
   title: "SAM Client",
   description: "Server Application Manager frontend",
+};
+
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  themeColor: "#fafafa",
 };
 
 export default function RootLayout({
@@ -18,7 +24,7 @@ export default function RootLayout({
       <body>
         <QueryProvider>
           {children}
-          <Toaster richColors position="top-right" />
+          <Toaster position="top-center" />
         </QueryProvider>
       </body>
     </html>

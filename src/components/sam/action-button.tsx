@@ -15,16 +15,30 @@ type ActionButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & {
 
 const variants: Record<ActionButtonVariant, string> = {
   primary:
-    "bg-blue-600 text-white hover:bg-blue-500 border-blue-500/30 shadow-blue-500/20",
+    "border-primary bg-primary text-primary-foreground hover:bg-primary/90",
   success:
-    "bg-emerald-600 text-white hover:bg-emerald-500 border-emerald-500/30 shadow-emerald-500/20",
+    "border-emerald-200 bg-emerald-50 text-emerald-800 hover:bg-emerald-100",
   warning:
-    "bg-amber-500 text-black hover:bg-amber-400 border-amber-400/30 shadow-amber-500/20",
+    "border-amber-200 bg-amber-50 text-amber-900 hover:bg-amber-100",
   danger:
-    "bg-red-600 text-white hover:bg-red-500 border-red-500/30 shadow-red-500/20",
+    "border-red-200 bg-red-50 text-red-700 hover:bg-red-100",
   ghost:
-    "bg-white/5 text-slate-100 hover:bg-white/10 border-white/10 shadow-black/20",
+    "border-border bg-card text-foreground hover:bg-muted",
 };
+
+export function actionButtonClass(
+  variant: ActionButtonVariant = "primary",
+  className = ""
+) {
+  return [
+    "inline-flex h-10 items-center justify-center gap-2 rounded-lg border px-3.5 text-sm font-medium whitespace-nowrap transition-colors sm:h-9",
+    "outline-none focus-visible:ring-2 focus-visible:ring-ring/20 active:translate-y-px",
+    "disabled:cursor-not-allowed disabled:opacity-50",
+    "[&_svg]:shrink-0",
+    variants[variant],
+    className,
+  ].join(" ");
+}
 
 export function ActionButton({
   variant = "primary",
@@ -37,12 +51,7 @@ export function ActionButton({
   return (
     <button
       disabled={disabled || loading}
-      className={[
-        "inline-flex h-9 items-center justify-center gap-2 rounded-xl border px-3 text-sm font-medium shadow-lg transition-all",
-        "disabled:cursor-not-allowed disabled:opacity-50",
-        variants[variant],
-        className,
-      ].join(" ")}
+      className={actionButtonClass(variant, className)}
       {...props}
     >
       {loading && <Loader2 className="size-4 animate-spin" />}

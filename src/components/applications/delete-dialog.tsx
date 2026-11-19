@@ -38,28 +38,28 @@ export function DeleteDialog({
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-lg border-white/10 bg-[#0d111b] text-white">
+      <DialogContent>
         <DialogHeader>
-          <DialogTitle className="text-xl">Delete application</DialogTitle>
+          <DialogTitle className="text-lg">Delete application</DialogTitle>
 
-          <DialogDescription className="text-slate-400">
+          <DialogDescription>
             Deze actie kan niet ongedaan gemaakt worden.
           </DialogDescription>
         </DialogHeader>
 
-        <div className="rounded-xl border border-red-500/20 bg-red-500/10 p-4">
-          <p className="text-sm text-slate-300">Je staat op het punt om</p>
+        <div className="rounded-lg border border-red-200 bg-red-50 p-4">
+          <p className="text-sm text-muted-foreground">Je staat op het punt om</p>
 
-          <p className="mt-2 text-lg font-bold text-white">
+          <p className="mt-2 break-words text-base font-semibold text-foreground">
             {application.name}
           </p>
 
-          <p className="mt-2 text-sm text-slate-400">
+          <p className="mt-2 text-sm text-muted-foreground">
             permanent te verwijderen.
           </p>
         </div>
 
-        <div className="flex justify-end gap-3">
+        <div className="flex flex-col-reverse gap-2 sm:flex-row sm:justify-end">
           <ActionButton variant="ghost" onClick={() => onOpenChange(false)}>
             Cancel
           </ActionButton>

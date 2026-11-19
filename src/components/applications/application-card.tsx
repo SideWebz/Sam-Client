@@ -15,7 +15,10 @@ import {
 import type { Application } from "@/types/application";
 import { StatusDot } from "@/components/applications/status-dot";
 import { LiveStatusPanel } from "@/components/applications/live-status-panel";
-import { ActionButton } from "@/components/sam/action-button";
+import {
+  ActionButton,
+  actionButtonClass,
+} from "@/components/sam/action-button";
 import { useApplicationAction } from "@/hooks/use-application-actions";
 import { LogsDialog } from "@/components/applications/logs-dialog";
 import { GitStatusPanel } from "@/components/applications/git-status-panel";
@@ -46,18 +49,15 @@ export function ApplicationCard({ application }: ApplicationCardProps) {
       <motion.div
         initial={{ opacity: 0, y: 8 }}
         animate={{ opacity: 1, y: 0 }}
-        whileHover={{ y: -4 }}
-        className="group overflow-hidden rounded-2xl border border-white/10 bg-[#0d111b] shadow-2xl shadow-black/30"
+        className="overflow-hidden rounded-xl border bg-card transition-colors hover:border-foreground/20"
       >
-        <div className="h-1 bg-gradient-to-r from-blue-500 via-cyan-400 to-emerald-400" />
-
         <div className="p-5">
           <div className="flex items-start justify-between gap-4">
             <div className="min-w-0">
-              <h2 className="truncate text-xl font-bold text-white">
+              <h2 className="truncate text-lg font-semibold tracking-tight">
                 {application.name}
               </h2>
-              <p className="mt-1 truncate text-sm text-slate-400">
+              <p className="mt-0.5 truncate text-sm text-muted-foreground">
                 {application.domain}
               </p>
             </div>
@@ -68,7 +68,7 @@ export function ApplicationCard({ application }: ApplicationCardProps) {
           <LiveStatusPanel application={application} />
           <GitStatusPanel application={application} />
 
-          <div className="mt-5 grid grid-cols-2 gap-2">
+          <div className="mt-5 grid grid-cols-2 gap-2.5">
             <ActionButton
               variant="primary"
               loading={
@@ -123,11 +123,12 @@ export function ApplicationCard({ application }: ApplicationCardProps) {
               Open
             </ActionButton>
 
-            <Link href={`/applications/${application.id}/edit`}>
-              <ActionButton variant="ghost" className="w-full">
-                <Pencil className="size-4" />
-                Edit
-              </ActionButton>
+            <Link
+              href={`/applications/${application.id}/edit`}
+              className={actionButtonClass("ghost")}
+            >
+              <Pencil className="size-4" />
+              Edit
             </Link>
           </div>
         </div>
